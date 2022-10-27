@@ -15,11 +15,12 @@ Commit as regularly as possible and run `git pull` before coding to get any new 
 Compile to bytecode:
 
 ```bash
-javac -d bin src/CardGame.java
+javac -d bin src/*.java
 ```
 
 Run code
 
 ```bash
-java src/CardGame.java
+cd bin
+java CardGame
 ```
