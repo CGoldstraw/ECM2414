@@ -21,6 +21,5 @@ javac -d bin src/*.java
 Run code
 
 ```bash
-cd bin
-java CardGame
+java -cp bin CardGame
 ```
