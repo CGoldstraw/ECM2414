@@ -1,39 +1,35 @@
-import java.io.*;
-
 public class Pack {
     private Card[] cards;
-    public Pack(String packLocation, int numPlayers) throws IOException {
-        File packFile = new File(packLocation);
-        BufferedReader reader = new BufferedReader(new FileReader(packFile));
-
-        // Check there are a valid number of cards in the packS
-        int numLines = 0;
-        while (reader.readLine() != null) numLines++;
-
+    public boolean valid;
+    public Pack(String packContent, int numPlayers) {
+        this.valid = true;
+        String[] lines = packContent.split("\n");
+        
+        int numLines = lines.length;
         if (numLines < 8 * numPlayers) {
-            throw new IOException("Pack does not have enough cards. Found " + numLines + " cards, expected " + 8 * numPlayers + ".");
+            System.out.println("Not enough cards. Expected: "+ 8 * numPlayers + ", received " + numLines);
+            this.valid = false;
         } else if (numLines > 8 * numPlayers) {
-            throw new IOException("Pack has too many cards. Found " + numLines + " cards, expected " + 8 * numPlayers + ".");
+            System.out.println("Too many cards. Expected: "+ 8 * numPlayers + ", received " + numLines);
+            this.valid = false;
         }
-        reader.close();
 
         // Read the cards from the pack
         cards = new Card[numLines];
-        reader = new BufferedReader(new FileReader(packFile));
         for (int i = 0; i < numLines; i++) {
-            String line = reader.readLine();
             try {
                 // Check the card is a positive int
-                int cardValue = Integer.parseInt(line);
+                int cardValue = Integer.parseInt(lines[i]);
                 if (cardValue <= 0) {
-                    throw new IOException("Pack contains invalid card value. Found " + cardValue + " on line " + (i + 1) + ". Expected a positive integer.");
+                    System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i+1) + ". Expected a positive integer.");
+                    this.valid = false;
                 }
                 cards[i] = new Card(cardValue);
             } catch (NumberFormatException e) {
-                throw new IOException("Pack contains invalid card value. Found " + line + " on line " + (i + 1) + ". Expected a positive integer.");
+                System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i+1) + ". Expected a positive integer.");
+                this.valid = false;
             }
         }
-        reader.close();
     }
 
     public Card[] getCards() {

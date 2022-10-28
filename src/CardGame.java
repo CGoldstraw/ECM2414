@@ -1,16 +1,18 @@
-import java.io.IOException;
-import java.util.*;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 
 class CardGame {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+
+    public static int getNumPlayers(Scanner scan) {
         int numPlayers = 0;
-        while (numPlayers <= 0) {
-            System.out.println("Please enter the number of players.");
+        while (true) {
+            System.out.println("Please enter the number of players:");
             String numPlayerInput = scan.nextLine();
             try {
                 numPlayers = Integer.parseInt(numPlayerInput);
-                if (numPlayers > 0) {
+                if (numPlayers >= 2) {
                     break;
                 }
                 System.out.println("Please enter a positive number of players.");
@@ -18,22 +20,42 @@ class CardGame {
                 System.out.println("Please enter a valid number of players.");
             }
         }
+        return numPlayers;
+    }
 
-        String packLocation = "";
-        while (packLocation.equals("")) {
-            System.out.println("Please enter the location of pack to load:");
-            packLocation = scan.nextLine();
+    public static String getPackFile(Scanner scan) {
+        String packContent = "";
+        while (true) {
             try {
-                Pack pack = new Pack(packLocation, numPlayers);
-                Card[] cards = pack.getCards();
-                for (int i = 0; i < cards.length; i++) {
-                    System.out.println("Card " + (i + 1) + ": " + cards[i].getValue());
+                System.out.println("Please enter the location of pack to load:");
+                String packLocation = scan.nextLine();
+                File packFile = new File(packLocation);
+                Scanner packReader = new Scanner(packFile);
+                while(packReader.hasNextLine()){
+                    String line = packReader.nextLine();
+                    packContent += line + "\n";
                 }
-            } catch (IOException e) {
-                packLocation = "";
-                System.out.println("Error: " + e);
+                packReader.close();
+                break;
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found, please enter a valid file location.");
             }
         }
+        return packContent;
+    }
+
+    public static void main(String[] args) {        
+        Scanner scan = new Scanner(System.in);
+        int numPlayers = getNumPlayers(scan);
+        Pack pack;
+
+        do {
+            String packLocation = getPackFile(scan);
+            pack = new Pack(packLocation, numPlayers);
+        } while (!pack.valid);
         scan.close();
+
+        Card[] cards = pack.getCards();
+        System.out.println(cards.length);
     }
 }
