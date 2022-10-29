@@ -60,9 +60,9 @@ class CardGame {
         // Create the players and decks
         Player[] players = new Player[numPlayers];
         Deck[] decks = new Deck[numPlayers];
-        for (int i = 1; i < numPlayers + 1; i++) {
-            players[i] = new Player(i);
-            decks[i] = new Deck(i);
+        for (int i = 0; i < numPlayers; i++) {
+            players[i] = new Player(i + 1);
+            decks[i] = new Deck(i + 1);
         }
 
         pack.dealCards(players, decks);
