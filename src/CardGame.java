@@ -69,7 +69,7 @@ class CardGame {
             decks[i] = new Deck(i+1);
         }
 
-        pack.DealCards(players, decks);
+        pack.dealCards(players, decks);
 
         // Print out player hands
         for (int i = 0; i < numPlayers; i++) {
