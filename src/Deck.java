@@ -1,5 +1,5 @@
 public class Deck {
-    private int deckNumber;
+    private final int deckNumber;
 
     private Card[] cards;
 

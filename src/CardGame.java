@@ -31,7 +31,7 @@ class CardGame {
                 String packLocation = scan.nextLine();
                 File packFile = new File(packLocation);
                 Scanner packReader = new Scanner(packFile);
-                while(packReader.hasNextLine()){
+                while (packReader.hasNextLine()) {
                     String line = packReader.nextLine();
                     packContent += line + "\n";
                 }
@@ -44,7 +44,7 @@ class CardGame {
         return packContent;
     }
 
-    public static void main(String[] args) {        
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int numPlayers = getNumPlayers(scan);
         Pack pack;
@@ -57,16 +57,12 @@ class CardGame {
 
         Card[] cards = pack.getCards();
 
-        // Create the players
+        // Create the players and decks
         Player[] players = new Player[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            players[i] = new Player(i+1);
-        }
-
-        // Create the decks
         Deck[] decks = new Deck[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            decks[i] = new Deck(i+1);
+        for (int i = 1; i < numPlayers + 1; i++) {
+            players[i] = new Player(i);
+            decks[i] = new Deck(i);
         }
 
         pack.dealCards(players, decks);

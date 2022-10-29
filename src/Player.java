@@ -1,5 +1,5 @@
 public class Player extends Thread {
-    private int playerNumber;
+    private final int playerNumber;
 
     private Card[] hand;
 
@@ -12,9 +12,9 @@ public class Player extends Thread {
         hand[cardNumber] = card;
     }
 
-   public Card[] getHand() {
-            return hand;
-        }
+    public Card[] getHand() {
+        return hand;
+    }
 
     public int getPlayerNumber() {
         return playerNumber;
