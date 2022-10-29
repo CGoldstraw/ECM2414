@@ -56,6 +56,29 @@ class CardGame {
         scan.close();
 
         Card[] cards = pack.getCards();
-        System.out.println(cards.length);
+
+        // Create the players
+        Player[] players = new Player[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+            players[i] = new Player(i+1);
+        }
+
+        // Create the decks
+        Deck[] decks = new Deck[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+            decks[i] = new Deck(i+1);
+        }
+
+        pack.DealCards(players, decks);
+
+        // Print out player hands
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.println("Player " + players[i].getPlayerNumber() + " has " + players[i].getHand().length + " cards.");
+        }
+
+        // Print out deck hands
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.println("Deck " + decks[i].getDeckNumber() + " has " + decks[i].getCards().length + " cards.");
+        }
     }
 }
