@@ -1,9 +1,9 @@
-public class Deck {
+public class CardDeck {
     private final int deckNumber;
 
     private Card[] cards;
 
-    public Deck(int deckNumber) {
+    public CardDeck(int deckNumber) {
         this.deckNumber = deckNumber;
         this.cards = new Card[4];
     }

@@ -37,18 +37,18 @@ public class Pack {
         return cards;
     }
 
-    public void dealCards(Player[] players, Deck[] decks) {
+    public void dealCards(Player[] players, CardDeck[] decks) {
         // Deal four card to each player
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < players.length; j++) {
-                players[j].dealCard(cards[i * players.length + j], i);
+                players[j].dealCard(cards[i*players.length + j], i);
             }
         }
 
         // Deal four cards to each deck
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < decks.length; j++) {
-                decks[j].dealCard(cards[4 * players.length + i * decks.length + j], i);
+                decks[j].dealCard(cards[(4+i)*decks.length + j], i);
             }
         }
     }

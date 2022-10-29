@@ -9,11 +9,11 @@ public class Player extends Thread {
     }
 
     public void dealCard(Card card, int cardNumber) {
-        hand[cardNumber] = card;
+        this.hand[cardNumber] = card;
     }
 
     public Card[] getHand() {
-        return hand;
+        return this.hand;
     }
 
     public int getPlayerNumber() {
