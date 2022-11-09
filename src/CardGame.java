@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 
 class CardGame {
 
+    public final static Object lock = new Object();
+    public static Player[] players;
+    public static CardDeck[] decks;
+
     public static int getNumPlayers(Scanner scan) {
         int numPlayers = 0;
         while (true) {
@@ -55,11 +59,9 @@ class CardGame {
         } while (!pack.valid);
         scan.close();
 
-        Card[] cards = pack.getCards();
-
         // Create the players and decks
-        Player[] players = new Player[numPlayers];
-        CardDeck[] decks = new CardDeck[numPlayers];
+        players = new Player[numPlayers];
+        decks = new CardDeck[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
             players[i] = new Player(i + 1);
             decks[i] = new CardDeck(i + 1);
@@ -69,12 +71,13 @@ class CardGame {
 
         // Print out player hands
         for (int i = 0; i < numPlayers; i++) {
-            System.out.println("Player " + players[i].getPlayerNumber() + " has " + players[i].getHand().length + " cards.");
+            System.out.println("Player " + players[i].getPlayerNumber() + " has " + players[i].getHand().size() + " cards.");
+            players[i].start();
         }
 
         // Print out deck hands
-        for (int i = 0; i < numPlayers; i++) {
-            System.out.println("Deck " + decks[i].getDeckNumber() + " has " + decks[i].getCards().length + " cards.");
-        }
+        // for (int i = 0; i < numPlayers; i++) {
+        //     System.out.println("Deck " + decks[i].getDeckNumber() + " has " + decks[i].getCards().size() + " cards.");
+        // }
     }
 }

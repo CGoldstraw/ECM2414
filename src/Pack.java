@@ -41,14 +41,14 @@ public class Pack {
         // Deal four card to each player
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < players.length; j++) {
-                players[j].dealCard(cards[i*players.length + j], i);
+                players[j].dealCard(cards[i*players.length + j]);
             }
         }
 
         // Deal four cards to each deck
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < decks.length; j++) {
-                decks[j].dealCard(cards[(4+i)*decks.length + j], i);
+                decks[j].dealCard(cards[(4+i)*decks.length + j]);
             }
         }
     }

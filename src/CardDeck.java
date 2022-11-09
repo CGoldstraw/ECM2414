@@ -1,22 +1,25 @@
+import java.util.ArrayList;
+
 public class CardDeck {
     private final int deckNumber;
 
-    private Card[] cards;
+    private ArrayList<Card> cards;
 
     public CardDeck(int deckNumber) {
         this.deckNumber = deckNumber;
-        this.cards = new Card[4];
+        this.cards = new ArrayList<Card>();
     }
 
-    public void dealCard(Card card, int cardNumber) {
-        cards[cardNumber] = card;
+    public void dealCard(Card card) {
+        // Cards should be dealt to the top
+        cards.add(card);
     }
 
     public int getDeckNumber() {
         return deckNumber;
     }
 
-    public Card[] getCards() {
+    public ArrayList<Card> getCards() {
         return cards;
     }
 }
