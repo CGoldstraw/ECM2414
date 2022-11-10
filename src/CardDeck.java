@@ -10,7 +10,7 @@ public class CardDeck {
         this.cards = new ArrayList<Card>();
     }
 
-    public void dealCard(Card card) {
+    public synchronized void dealCard(Card card) {
         // Cards should be dealt to the top
         cards.add(card);
     }
@@ -19,7 +19,9 @@ public class CardDeck {
         return deckNumber;
     }
 
-    public ArrayList<Card> getCards() {
+    public synchronized ArrayList<Card> getCards() {
+        // Multiple threads can change the deck, so to prevent a thread caching the result
+        // and obtaining stale data, the method must be synchronized.
         return cards;
     }
 }

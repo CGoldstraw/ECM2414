@@ -69,15 +69,8 @@ class CardGame {
 
         pack.dealCards(players, decks);
 
-        // Print out player hands
         for (int i = 0; i < numPlayers; i++) {
-            System.out.println("Player " + players[i].getPlayerNumber() + " has " + players[i].getHand().size() + " cards.");
             players[i].start();
         }
-
-        // Print out deck hands
-        // for (int i = 0; i < numPlayers; i++) {
-        //     System.out.println("Deck " + decks[i].getDeckNumber() + " has " + decks[i].getCards().size() + " cards.");
-        // }
     }
 }
