@@ -51,9 +51,12 @@ public class Player extends Thread {
             }
             checkWon();
         }
-        this.logHand("final");
+        this.logInform();
         this.safeLog("player " + this.playerNumber + " exits");
+        this.logHand("final");
         this.closeLog();
+        // Each player creates a log file for the deck to their left at the end.
+        this.logDeck();
     }
 
     private Card findDisposableCard() {
@@ -116,7 +119,16 @@ public class Player extends Thread {
     }
 
     private void logWin() {
+        System.out.println("player " + this.playerNumber + " wins");
         this.safeLog("player " + this.playerNumber + " wins");
+    }
+
+    private void logInform() {
+        if (this.playerNumber != Player.winningPlayer) {
+            String winner = "player " + Player.winningPlayer;
+            String loser = "player " + this.playerNumber;
+            this.safeLog(winner + " has informed " + loser + " that " + winner + " has won");
+        }
     }
 
     private void safeLog(String msg) {
@@ -132,6 +144,22 @@ public class Player extends Thread {
             this.logFile.close();
         } catch (IOException e) {
             System.out.println("Log closing failed.");
+        }
+    }
+
+    private void logDeck() {
+        try {
+            String filename = "deck" + this.playerNumber + "_output.txt";
+            FileWriter deckLogFile = new FileWriter(filename);
+            String deckCards = "";
+            for (int i = 0; i < CardGame.decks[this.playerNumber-1].getCards().size(); i++) {
+                deckCards += CardGame.decks[this.playerNumber-1].getCards().get(i).getValue() + " ";
+            }
+
+            deckLogFile.write("deck " + this.playerNumber + " contents: " + deckCards);
+            deckLogFile.close();
+        } catch (IOException e) {
+            System.out.println("Log file creation failed for deck " + playerNumber);
         }
     }
 }
