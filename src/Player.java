@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Player extends Thread {
-    private final int playerNumber;
     public static boolean gameWon = false;
     public static int winningPlayer = 0;
     public static int numPlayers = 0;
+    private final int playerNumber;
     private int cardCycleCount = 0;
     private FileWriter logFile;
     private ArrayList<Card> hand;
@@ -91,12 +90,6 @@ public class Player extends Thread {
         }
     }
 
-    public ArrayList<Card> getHand() {
-        // The players do not directly interact with eachother, so this will never
-        // return stale data, making it thread safe.
-        return this.hand;
-    }
-
     public int getPlayerNumber() {
         return playerNumber;
     }
@@ -116,7 +109,7 @@ public class Player extends Thread {
 
     private void logDiscard(int cardVal) {
         this.safeLog("player " + this.playerNumber + " discards a " + cardVal +
-            " to deck " + (this.playerNumber%4+1));
+            " to deck " + (this.playerNumber%Player.numPlayers+1));
     }
 
     private void logWin() {
