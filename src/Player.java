@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+import javax.swing.plaf.synth.SynthCheckBoxMenuItemUI;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -6,6 +9,7 @@ public class Player extends Thread {
     private final int playerNumber;
     public static boolean gameWon = false;
     public static int winningPlayer = 0;
+    public static int numPlayers = 0;
     private int cardCycleCount = 0;
     private FileWriter logFile;
     private ArrayList<Card> hand;
@@ -24,30 +28,29 @@ public class Player extends Thread {
     public void run() {
         checkWon();
         while (!gameWon) {
-            boolean pickedUp = false;
-            CardDeck leftDeck = CardGame.decks[this.playerNumber-1];
-            CardDeck rightDeck = CardGame.decks[this.playerNumber%4];
-            synchronized (leftDeck) {
-                // Top of deck considered to be last card as decks operate in a stack.
-                int lastIndex = leftDeck.getCards().size()-1;
-                if (lastIndex != -1) {
-                    pickedUp = true;
-                    Card newCard = leftDeck.getCards().remove(lastIndex);
-                    this.hand.add(newCard);
-                    this.logDraw(newCard.getValue());
+            CardDeck leftDeck = CardGame.decks[this.playerNumber - 1];
+            CardDeck rightDeck = CardGame.decks[this.playerNumber % Player.numPlayers];
+            // Decks are locked in ascending order so that deadlock doesn't occur.
+            // Both decks must be locked at once in order to ensure fully atomic player actions.
+            CardDeck firstLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? leftDeck : rightDeck;
+            CardDeck lastLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? rightDeck : leftDeck;
+            synchronized (firstLockDeck) {
+                synchronized (lastLockDeck) {
+                    // Top of deck considered to be last card as decks operate in a stack.
+                    int lastIndex = leftDeck.getCards().size()-1;
+                    // Ensure deck has at least 1 card.
+                    if (lastIndex != -1) {
+                        Card newCard = leftDeck.getCards().remove(lastIndex);
+                        this.hand.add(newCard);
+                        Card disposedCard = findDisposableCard();
+                        this.hand.remove(disposedCard);
+                        rightDeck.dealCard(disposedCard);
+                        
+                        this.logDraw(newCard.getValue());
+                        this.logDiscard(disposedCard.getValue());
+                        this.logHand("current");
+                    }
                 }
-            }
-            
-            synchronized (rightDeck) {
-                if (pickedUp) {
-                    Card disposedCard = findDisposableCard();
-                    this.hand.remove(disposedCard);
-                    rightDeck.dealCard(disposedCard);
-                    this.logDiscard(disposedCard.getValue());
-                }
-            }
-            if (pickedUp) {
-                this.logHand("current");
             }
             checkWon();
         }
@@ -155,7 +158,9 @@ public class Player extends Thread {
             for (int i = 0; i < CardGame.decks[this.playerNumber-1].getCards().size(); i++) {
                 deckCards += CardGame.decks[this.playerNumber-1].getCards().get(i).getValue() + " ";
             }
-
+            if (deckCards.equals("")) {
+                deckCards = "empty";
+            }
             deckLogFile.write("deck " + this.playerNumber + " contents: " + deckCards);
             deckLogFile.close();
         } catch (IOException e) {

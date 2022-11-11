@@ -60,6 +60,7 @@ class CardGame {
         scan.close();
 
         // Create the players and decks
+        Player.numPlayers = numPlayers;
         players = new Player[numPlayers];
         decks = new CardDeck[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
