@@ -33,18 +33,24 @@ class CardGame {
             try {
                 System.out.println("Please enter the location of pack to load:");
                 String packLocation = scan.nextLine();
-                File packFile = new File(packLocation);
-                Scanner packReader = new Scanner(packFile);
-                while (packReader.hasNextLine()) {
-                    String line = packReader.nextLine();
-                    packContent += line + "\n";
-                }
-                packReader.close();
+                packContent = getPackContent(packLocation);
                 break;
             } catch (FileNotFoundException e) {
                 System.out.println("File not found, please enter a valid file location.");
             }
         }
+        return packContent;
+    }
+
+    private static String getPackContent(String packLocation) throws FileNotFoundException {
+        File packFile = new File(packLocation);
+        Scanner packReader = new Scanner(packFile);
+        String packContent = "";
+        while (packReader.hasNextLine()) {
+            String line = packReader.nextLine();
+            packContent += line + "\n";
+        }
+        packReader.close();
         return packContent;
     }
 
