@@ -51,8 +51,6 @@ class CardGame {
             packContent += line + "\n";
         }
         packReader.close();
-        packContent = packContent.replace("\n", "\\n");
-        System.out.println(packContent);
         return packContent;
     }
 
