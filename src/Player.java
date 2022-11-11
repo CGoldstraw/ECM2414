@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthCheckBoxMenuItemUI;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
