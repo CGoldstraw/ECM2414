@@ -93,6 +93,10 @@ public class Player extends Thread {
     public int getPlayerNumber() {
         return playerNumber;
     }
+    
+    public ArrayList<Card> getHand() {
+        return this.hand;
+    }
 
     private void logHand(String handType) {
         String handStr = "";
