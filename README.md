@@ -29,11 +29,11 @@ java -cp bin CardGame
 Compile to bytecode:
 
 ```bash
-javac -cp src:lib/junit-4.13.1.jar -d bin src/*.java
+javac -cp src:lib/junit-4.13.1.jar -d testsbin tests/*.java
 ```
 
 Run tests
 
 ```bash
-java -cp "bin:lib/*" org.junit.runner.JUnitCore CardGameTestSuite
+java -cp "bin:bintests:lib/*" org.junit.runner.JUnitCore CardGameTestSuite
 ```

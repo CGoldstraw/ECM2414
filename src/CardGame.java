@@ -54,17 +54,7 @@ class CardGame {
         return packContent;
     }
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int numPlayers = getNumPlayers(scan);
-        Pack pack;
-
-        do {
-            String packLocation = getPackFile(scan);
-            pack = new Pack(packLocation, numPlayers);
-        } while (!pack.valid);
-        scan.close();
-
+    public static void play(int numPlayers, Pack pack) {
         // Create the players and decks
         Player.numPlayers = numPlayers;
         players = new Player[numPlayers];
@@ -79,5 +69,18 @@ class CardGame {
         for (int i = 0; i < numPlayers; i++) {
             players[i].start();
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int numPlayers = getNumPlayers(scan);
+        Pack pack;
+        do {
+            String packLocation = getPackFile(scan);
+            pack = new Pack(packLocation, numPlayers);
+        } while (!pack.valid);
+        scan.close();
+
+        play(numPlayers, pack);
     }
 }

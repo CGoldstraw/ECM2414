@@ -13,7 +13,8 @@ public class Player extends Thread {
 
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
-        this.hand = new ArrayList<Card>();
+        this.hand = new ArrayList<>();
+
         try {
             String filename = "player" + playerNumber + "_output.txt";
             logFile = new FileWriter(filename);
@@ -56,7 +57,7 @@ public class Player extends Thread {
         this.logHand("final");
         this.closeLog();
         // Each player creates a log file for the deck to their left at the end.
-        this.logDeck();
+        CardGame.decks[this.playerNumber-1].logDeck();
     }
 
     private Card findDisposableCard() {
@@ -68,7 +69,7 @@ public class Player extends Thread {
         return this.hand.get(cardCycleCount);
     }
 
-    private boolean checkWon() {
+    private void checkWon() {
         int v1 = this.hand.get(0).getValue();
         int v2 = this.hand.get(1).getValue();
         int v3 = this.hand.get(2).getValue();
@@ -78,9 +79,7 @@ public class Player extends Thread {
             Player.gameWon = true;
             Player.winningPlayer = this.playerNumber;
             this.logWin();
-            return true;
         }
-        return false;
     }
 
     public void dealCard(Card card) {
@@ -145,21 +144,5 @@ public class Player extends Thread {
         }
     }
 
-    private void logDeck() {
-        try {
-            String filename = "deck" + this.playerNumber + "_output.txt";
-            FileWriter deckLogFile = new FileWriter(filename);
-            String deckCards = "";
-            for (int i = 0; i < CardGame.decks[this.playerNumber-1].getCards().size(); i++) {
-                deckCards += CardGame.decks[this.playerNumber-1].getCards().get(i).getValue() + " ";
-            }
-            if (deckCards.equals("")) {
-                deckCards = "empty";
-            }
-            deckLogFile.write("deck " + this.playerNumber + " contents: " + deckCards);
-            deckLogFile.close();
-        } catch (IOException e) {
-            System.out.println("Log file creation failed for deck " + playerNumber);
-        }
-    }
+
 }
