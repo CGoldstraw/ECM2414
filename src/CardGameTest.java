@@ -1,12 +1,21 @@
 import org.junit.Test;
+import java.util.Random;
 
 public class CardGameTest {
 
     @Test
     public void fullGameTest() {
-        CardGame cardGame = new CardGame();
-        int numPlayers = 4;
-        String packStr = "3\n2\n2\n4\n1\n5\n6\n2\n3\n4\n1\n2\n4\n5\n2\n1\n2\n3\n5\n6\n4\n3\n2\n1\n2\n3\n4\n1\n2\n3\n4\n1\n";
+        // Systems Testing for the entire game. Creates a mock pack file and ensures the program
+        // runs without throwing an error.
+        Random rand = new Random();
+        int numPlayers = rand.nextInt(10);
+        String packStr = "";
+        for (int i = 0; i < 4*numPlayers; i++) {
+            packStr += (int)(i/4)+1 + "\n";
+        }
+        for (int i = 0; i < 4*numPlayers; i++) {
+            packStr += (int)(i/4)+1 + "\n";
+        }
         Pack pack = new Pack(packStr, numPlayers);
         CardGame.play(numPlayers, pack);
     }

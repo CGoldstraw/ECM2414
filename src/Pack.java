@@ -17,18 +17,20 @@ public class Pack {
 
         // Read the cards from the pack
         cards = new Card[numLines];
-        for (int i = 0; i < numLines; i++) {
-            try {
-                // Check the card is a positive int
-                int cardValue = Integer.parseInt(lines[i]);
-                if (cardValue <= 0) {
+        if (valid) {
+            for (int i = 0; i < numLines; i++) {
+                try {
+                    // Check the card is a positive int
+                    int cardValue = Integer.parseInt(lines[i]);
+                    if (cardValue <= 0) {
+                        System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i + 1) + ". Expected a positive integer.");
+                        this.valid = false;
+                    }
+                    cards[i] = new Card(cardValue);
+                } catch (NumberFormatException e) {
                     System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i + 1) + ". Expected a positive integer.");
                     this.valid = false;
                 }
-                cards[i] = new Card(cardValue);
-            } catch (NumberFormatException e) {
-                System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i + 1) + ". Expected a positive integer.");
-                this.valid = false;
             }
         }
     }
