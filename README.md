@@ -24,7 +24,7 @@ Run code
 java -cp bin CardGame
 ```
 
-Logs will be ouputterd to the `logs` folder
+Logs will be outputted to the `logs` folder
 
 # Testing
 
