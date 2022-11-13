@@ -20,7 +20,7 @@ public class Pack {
         if (valid) {
             for (int i = 0; i < numLines; i++) {
                 try {
-                    // Check the card is a positive int
+                    // Check the card is a positive integer.
                     int cardValue = Integer.parseInt(lines[i]);
                     if (cardValue <= 0) {
                         System.out.println("Pack contains an invalid card value. Found " + lines[i] + " on line " + (i + 1) + ". Expected a positive integer.");
@@ -40,7 +40,7 @@ public class Pack {
     }
 
     public void dealCards(Player[] players, CardDeck[] decks) {
-        // Deal four card to each player
+        // Deal four cards to each player
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < players.length; j++) {
                 players[j].dealCard(cards[i*players.length + j]);

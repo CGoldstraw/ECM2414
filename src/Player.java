@@ -20,6 +20,8 @@ public class Player extends Thread {
             logFile = new FileWriter(filename);
         } catch (IOException e) {
             System.out.println("Log file creation failed for player " + playerNumber);
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -32,24 +34,29 @@ public class Player extends Thread {
             // Both decks must be locked at once in order to ensure fully atomic player actions.
             CardDeck firstLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? leftDeck : rightDeck;
             CardDeck lastLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? rightDeck : leftDeck;
+            int newCardVal = -1;
+            int disposedCardVal = -1;
             synchronized (firstLockDeck) {
                 synchronized (lastLockDeck) {
                     // Top of deck considered to be last card as decks operate in a stack.
                     int lastIndex = leftDeck.getCards().size()-1;
                     // Ensure deck has at least 1 card.
                     if (lastIndex != -1) {
-                        Card newCard = leftDeck.getCards().remove(lastIndex);
+                        Card newCard = leftDeck.removeCard(lastIndex);
                         this.hand.add(newCard);
                         Card disposedCard = findDisposableCard();
                         this.hand.remove(disposedCard);
                         rightDeck.dealCard(disposedCard);
-                        
-                        this.logDraw(newCard.getValue());
-                        this.logDiscard(disposedCard.getValue());
-                        this.logHand("current");
+                        newCardVal = newCard.getValue();
+                        disposedCardVal = disposedCard.getValue();
                     }
                 }
             }
+            // Logging is handled outside of synchronous section to allow
+            // other players to start their turn.
+            this.logDraw(newCardVal);
+            this.logDiscard(disposedCardVal);
+            this.logHand("current");
             checkWon();
         }
         this.logInform();
@@ -133,6 +140,7 @@ public class Player extends Thread {
             this.logFile.write(msg + "\n");
         } catch (IOException e) {
             System.out.println("Log writing failed.");
+            e.printStackTrace();
         }
     }
 
@@ -141,6 +149,7 @@ public class Player extends Thread {
             this.logFile.close();
         } catch (IOException e) {
             System.out.println("Log closing failed.");
+            e.printStackTrace();
         }
     }
 

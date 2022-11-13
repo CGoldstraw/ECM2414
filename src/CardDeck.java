@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class CardDeck {
     private final int deckNumber;
-
     private ArrayList<Card> cards;
 
     public CardDeck(int deckNumber) {
@@ -17,6 +16,10 @@ public class CardDeck {
         cards.add(card);
     }
 
+    public synchronized Card removeCard(int index) {
+        return cards.remove(index);
+    }
+
     public int getDeckNumber() {
         return deckNumber;
     }
@@ -27,7 +30,7 @@ public class CardDeck {
         return cards;
     }
 
-    public int getCardValue(int index) {
+    public synchronized int getCardValue(int index) {
         return cards.get(index).getValue();
     }
 
@@ -46,6 +49,8 @@ public class CardDeck {
             deckLogFile.close();
         } catch (IOException e) {
             System.out.println("Log file creation failed for deck " + deckNumber);
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 }
