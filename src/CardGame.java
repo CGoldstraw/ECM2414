@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * CardGame handles the execution of the card game
+ * Handles the execution of the card game
  *
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0
@@ -97,6 +97,7 @@ class CardGame {
         pack.dealCards(players, decks);
 
         for (int i = 0; i < numPlayers; i++) {
+            // Launch the player threads
             players[i].start();
         }
     }
