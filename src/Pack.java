@@ -1,5 +1,5 @@
 /**
- * Pack contains the initial pack of cards and deals them to the players and decks
+ * Contains the initial pack of cards and deals them to the players and decks
  *
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0

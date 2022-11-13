@@ -1,5 +1,5 @@
 /**
- * Card stores a single card's value and provides methods to get and set the value.
+ * Stores a single card's value and provides a method to get the value.
  *
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0
