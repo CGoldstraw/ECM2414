@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class CardDeck {
     private final int deckNumber;
-    private final ArrayList<Card> cards;
+    private ArrayList<Card> cards;
 
     /**
      * Creates a new card deck with the given deck number.
