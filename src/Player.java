@@ -32,16 +32,14 @@ public class Player extends Thread {
     }
 
     public void run() {
-        // Check for the case where a player wins immediately.
+        // No turns can be taken if a player is dealt a winning hand
         while (!gameWon) {
             CardDeck leftDeck = CardGame.decks[this.playerNumber - 1];
             CardDeck rightDeck = CardGame.decks[this.playerNumber % Player.numPlayers];
             // Decks are locked in ascending order so that deadlock doesn't occur.
-            // Both decks must be locked at once in order to ensure fully atomic player actions.
+            // Both decks must be locked in order to ensure fully atomic player actions.
             CardDeck firstLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? leftDeck : rightDeck;
             CardDeck lastLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? rightDeck : leftDeck;
-            int newCardVal = -1;
-            int disposedCardVal = -1;
             synchronized (firstLockDeck) {
                 synchronized (lastLockDeck) {
                     // Top of deck considered to be last card as decks operate in a stack.
@@ -53,11 +51,9 @@ public class Player extends Thread {
                         Card disposedCard = findDisposableCard();
                         this.hand.remove(disposedCard);
                         rightDeck.dealCard(disposedCard);
-                        newCardVal = newCard.getValue();
-                        disposedCardVal = disposedCard.getValue();
 
-                        this.logDraw(newCardVal);
-                        this.logDiscard(disposedCardVal);
+                        this.logDraw(newCard.getValue());
+                        this.logDiscard(disposedCard.getValue());
                         this.logHand("current");
                     }
                 }
@@ -68,15 +64,15 @@ public class Player extends Thread {
         this.safeLog("player " + this.playerNumber + " exits");
         this.logHand("final");
         this.closeLog();
-        // Each player creates a log file for the deck to their left at the end.
+        // Each player calls the deck to their left's logging function at the end.
         CardGame.decks[this.playerNumber-1].logDeck();
     }
 
     private Card findDisposableCard() {
-        // Cycle through cards to prevent stale cards.
-        cardCycleCount = (cardCycleCount+1) % 4;
+        // Cycle through disposed index to prevent stale cards.
+        cardCycleCount = (cardCycleCount+1) % 5;
         while (this.hand.get(cardCycleCount).getValue() == this.playerNumber) {
-            cardCycleCount = (cardCycleCount+1) % 4;
+            cardCycleCount = (cardCycleCount+1) % 5;
         }
         return this.hand.get(cardCycleCount);
     }
