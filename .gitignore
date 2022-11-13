@@ -1,6 +1,7 @@
 examplepack*.txt
 player*_output.txt
 deck*_output.txt
+logs
 .idea
 *.iml
 out

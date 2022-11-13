@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -80,6 +83,13 @@ class CardGame {
             pack = new Pack(packLocation, numPlayers);
         } while (!pack.valid);
         scan.close();
+
+        try {
+            Files.createDirectories(Path.of("logs"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         play(numPlayers, pack);
     }

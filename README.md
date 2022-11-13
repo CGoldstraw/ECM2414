@@ -24,16 +24,18 @@ Run code
 java -cp bin CardGame
 ```
 
+Logs will be outputted to the `logs` folder
+
 # Testing
 
 Compile to bytecode:
 
 ```bash
-javac -cp src:lib/junit-4.13.1.jar -d testsbin tests/*.java
+javac -cp src:lib/junit-4.13.1.jar -d bin src/*.java
 ```
 
 Run tests
 
 ```bash
-java -cp "bin:bintests:lib/*" org.junit.runner.JUnitCore CardGameTestSuite
+java -cp "bin:lib/*" org.junit.runner.JUnitCore CardGameTestSuite
 ```
