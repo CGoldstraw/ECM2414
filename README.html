@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*
+
+Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-license.org/
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #23241f;
+}
+
+.hljs,
+.hljs-tag,
+.hljs-subst {
+  color: #f8f8f2;
+}
+
+.hljs-strong,
+.hljs-emphasis {
+  color: #a8a8a2;
+}
+
+.hljs-bullet,
+.hljs-quote,
+.hljs-number,
+.hljs-regexp,
+.hljs-literal,
+.hljs-link {
+  color: #ae81ff;
+}
+
+.hljs-code,
+.hljs-title,
+.hljs-section,
+.hljs-selector-class {
+  color: #a6e22e;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-name,
+.hljs-attr {
+  color: #f92672;
+}
+
+.hljs-symbol,
+.hljs-attribute {
+  color: #66d9ef;
+}
+
+.hljs-params,
+.hljs-class .hljs-title {
+  color: #f8f8f2;
+}
+
+.hljs-string,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-variable {
+  color: #e6db74;
+}
+
+.hljs-comment,
+.hljs-deletion,
+.hljs-meta {
+  color: #75715e;
+}
+
+</style>
+<link rel="stylesheet" href="https://charliegoldstraw.com/css/productive.css" type="text/css"><link rel="stylesheet" href="https://charliegoldstraw.com/css/productive-hljs.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="ecm2414-ca-2022">ECM2414 CA 2022</h1>
+<h2 id="development-notes">Development Notes</h2>
+<p>Commit as regularly as possible and run <code>git pull</code> before coding to get any new changes</p>
+<h2 id="structure">Structure</h2>
+<p><code>src</code> - Source code</p>
+<p><code>bin</code> - Bytecode</p>
+<h2 id="build-notes">Build Notes</h2>
+<p>Compile to bytecode:</p>
+<pre class="hljs"><code><div>javac -cp src;lib/junit-4.13.1.jar -d bin src/*.java
+</div></code></pre>
+<p>Run code</p>
+<pre class="hljs"><code><div>java -cp bin CardGame
+</div></code></pre>
+<p>Logs will be outputted to the <code>logs</code> folder</p>
+<h1 id="testing">Testing</h1>
+<p>Compile to bytecode:</p>
+<pre class="hljs"><code><div>javac -cp src:lib/junit-4.13.1.jar -d bin src/*.java
+</div></code></pre>
+<p>Run tests</p>
+<pre class="hljs"><code><div>java -cp <span class="hljs-string">"bin:lib/*"</span> org.junit.runner.JUnitCore CardGameTestSuite
+</div></code></pre>
+
+</body>
+</html>

@@ -18,10 +18,11 @@ public class Player extends Thread {
         // we use an arraylist which can handle a variable length list of cards.
         this.hand = new ArrayList<>();
 
+        // Creates player log file and creates logs directory if it doesn't exist.
         try {
-            String filename = "player" + playerNumber + "_output.txt";
             File logsDir = new File("logs");
             logsDir.mkdir();
+            String filename = "player" + playerNumber + "_output.txt";
             logFile = new FileWriter(new File("logs", filename));
         } catch (IOException e) {
             System.out.println("Log file creation failed for player " + playerNumber);
@@ -31,7 +32,7 @@ public class Player extends Thread {
     }
 
     public void run() {
-        checkWon();
+        // Check for the case where a player wins immediately.
         while (!gameWon) {
             CardDeck leftDeck = CardGame.decks[this.playerNumber - 1];
             CardDeck rightDeck = CardGame.decks[this.playerNumber % Player.numPlayers];
@@ -54,17 +55,16 @@ public class Player extends Thread {
                         rightDeck.dealCard(disposedCard);
                         newCardVal = newCard.getValue();
                         disposedCardVal = disposedCard.getValue();
+
+                        this.logDraw(newCardVal);
+                        this.logDiscard(disposedCardVal);
+                        this.logHand("current");
                     }
                 }
             }
-            // Logging is handled outside of synchronous section to allow
-            // other players to start their turn.
-            this.logDraw(newCardVal);
-            this.logDiscard(disposedCardVal);
-            this.logHand("current");
             checkWon();
         }
-        this.logInform();
+        this.logEnding();
         this.safeLog("player " + this.playerNumber + " exits");
         this.logHand("final");
         this.closeLog();
@@ -90,7 +90,6 @@ public class Player extends Thread {
         if ((v1 == v2) && (v1 == v3) && (v1 == v4)) {
             Player.gameWon = true;
             Player.winningPlayer = this.playerNumber;
-            this.logWin();
         }
     }
 
@@ -107,6 +106,10 @@ public class Player extends Thread {
     
     public ArrayList<Card> getHand() {
         return this.hand;
+    }
+
+    public int getCardVal(int index) {
+        return this.hand.get(index).getValue();
     }
 
     private void logHand(String handType) {
@@ -127,16 +130,14 @@ public class Player extends Thread {
             " to deck " + (this.playerNumber%Player.numPlayers+1));
     }
 
-    private void logWin() {
-        System.out.println("player " + this.playerNumber + " wins");
-        this.safeLog("player " + this.playerNumber + " wins");
-    }
-
-    private void logInform() {
+    private void logEnding() {
         if (this.playerNumber != Player.winningPlayer) {
             String winner = "player " + Player.winningPlayer;
             String loser = "player " + this.playerNumber;
             this.safeLog(winner + " has informed " + loser + " that " + winner + " has won");
+        } else {
+            System.out.println("player " + this.playerNumber + " wins");
+            this.safeLog("player " + this.playerNumber + " wins");
         }
     }
 

@@ -53,5 +53,18 @@ public class Pack {
                 decks[j].dealCard(cards[(4+i)*decks.length + j]);
             }
         }
+
+        // Check for case where a player immediately wins.
+        for (int i = 0; i < players.length; i++) {
+            int v1 = players[i].getCardVal(0);
+            int v2 = players[i].getCardVal(1);
+            int v3 = players[i].getCardVal(2);
+            int v4 = players[i].getCardVal(3);
+
+            if ((v1 == v2) && (v1 == v3) && (v1 == v4)) {
+                Player.gameWon = true;
+                Player.winningPlayer = players[i].getPlayerNumber();
+        }
+        }
     }
 }

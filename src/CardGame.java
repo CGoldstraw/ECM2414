@@ -84,13 +84,6 @@ class CardGame {
         } while (!pack.valid);
         scan.close();
 
-        try {
-            Files.createDirectories(Path.of("logs"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
         play(numPlayers, pack);
     }
 }

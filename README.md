@@ -15,7 +15,7 @@ Commit as regularly as possible and run `git pull` before coding to get any new 
 Compile to bytecode:
 
 ```bash
-javac -cp src:lib/junit-4.13.1.jar -d bin src/*.java
+javac -cp src;lib/junit-4.13.1.jar -d bin src/*.java
 ```
 
 Run code
