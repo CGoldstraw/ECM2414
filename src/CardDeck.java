@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class CardDeck {
     private final int deckNumber;
-    private ArrayList<Card> cards;
+    private final ArrayList<Card> cards;
 
     /**
      * Creates a new card deck with the given deck number.
@@ -67,6 +67,7 @@ public class CardDeck {
 
     /**
      * Gets the value of a card in the deck at the given index
+     *
      * @param index The index of the card
      * @return The value of the card
      */

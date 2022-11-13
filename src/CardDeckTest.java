@@ -36,7 +36,7 @@ public class CardDeckTest {
         CardDeck deck = new CardDeck(1);
         for (int i = 1; i <= 4; i++) {
             deck.dealCard(new Card(i));
-            assertEquals(i, deck.getCards().get(i-1).getValue());
+            assertEquals(i, deck.getCards().get(i - 1).getValue());
         }
     }
 

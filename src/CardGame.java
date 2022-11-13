@@ -1,9 +1,10 @@
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * CardGame handles the execution of the card game
+ *
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0
  */
@@ -60,6 +61,7 @@ class CardGame {
 
     /**
      * Gets the content of the pack file from specified location
+     *
      * @param packLocation The location of the pack file
      * @return The contents of the pack file
      * @throws FileNotFoundException If the pack file does not exist
@@ -80,7 +82,7 @@ class CardGame {
      * Starts the card game
      *
      * @param numPlayers Number of players playing the game
-     * @param pack The pack to use for the game
+     * @param pack       The pack to use for the game
      */
     public static void play(int numPlayers, Pack pack) {
         // Create the players and decks

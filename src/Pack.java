@@ -49,6 +49,7 @@ public class Pack {
 
     /**
      * Gets the cards in the pack
+     *
      * @return The cards in the pack
      */
     public Card[] getCards() {
