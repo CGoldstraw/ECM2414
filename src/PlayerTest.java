@@ -4,6 +4,12 @@ import org.junit.Test;
 
 import java.lang.reflect.Method;
 
+/**
+ * Tests the functionality of the Player class
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class PlayerTest {
 
     private Method findDisposableCard;

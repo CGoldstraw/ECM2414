@@ -1,6 +1,12 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests the functionality of the Card class
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class CardTest {
 
     @Test

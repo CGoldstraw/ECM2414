@@ -1,7 +1,19 @@
+/**
+ * Pack contains the initial pack of cards and deals them to the players and decks
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class Pack {
     private final Card[] cards;
     public boolean valid;
 
+    /**
+     * Creates a new pack of cards.
+     *
+     * @param packContent The cards of the pack with each card on a new line
+     * @param numPlayers The number of players in the game
+     */
     public Pack(String packContent, int numPlayers) {
         this.valid = true;
         String[] lines = packContent.split("\n");
@@ -35,10 +47,20 @@ public class Pack {
         }
     }
 
+    /**
+     * Gets the cards in the pack
+     * @return The cards in the pack
+     */
     public Card[] getCards() {
         return cards;
     }
 
+    /**
+     * Deals the cards in a round-robin fashion to the players and then the decks
+     *
+     * @param players The players to deal to
+     * @param decks The decks to deal to
+     */
     public void dealCards(Player[] players, CardDeck[] decks) {
         // Deal four cards to each player
         for (int i = 0; i < 4; i++) {
