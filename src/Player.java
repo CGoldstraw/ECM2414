@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Player represents a player in the game.
+ * Represents a player in the game.
  *
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0
