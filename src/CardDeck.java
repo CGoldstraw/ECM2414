@@ -9,6 +9,8 @@ public class CardDeck {
 
     public CardDeck(int deckNumber) {
         this.deckNumber = deckNumber;
+        // As decks are not guaranteed to take the same number of turns, we
+        // use an arraylist which can handle a variable length list of cards.
         this.cards = new ArrayList<Card>();
     }
 

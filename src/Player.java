@@ -14,14 +14,14 @@ public class Player extends Thread {
 
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
+        // As players are not guaranteed to take the same number of turns,
+        // we use an arraylist which can handle a variable length list of cards.
         this.hand = new ArrayList<>();
 
         try {
             String filename = "player" + playerNumber + "_output.txt";
             File logsDir = new File("logs");
-
             logsDir.mkdir();
-
             logFile = new FileWriter(new File("logs", filename));
         } catch (IOException e) {
             System.out.println("Log file creation failed for player " + playerNumber);
