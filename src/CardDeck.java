@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class CardDeck {
     public void logDeck() {
         try {
             String filename = "deck" + this.deckNumber + "_output.txt";
-            FileWriter deckLogFile = new FileWriter(filename);
+            FileWriter deckLogFile = new FileWriter(new File("logs", filename));
             String deckCards = "";
             for (int i = 0; i < this.cards.size(); i++) {
                 deckCards += this.getCardValue(i) + " ";

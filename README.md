@@ -24,6 +24,8 @@ Run code
 java -cp bin CardGame
 ```
 
+Logs will be ouputterd to the `logs` folder
+
 # Testing
 
 Compile to bytecode:

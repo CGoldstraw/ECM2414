@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class Player extends Thread {
 
         try {
             String filename = "player" + playerNumber + "_output.txt";
-            logFile = new FileWriter(filename);
+            logFile = new FileWriter(new File("logs", filename));
         } catch (IOException e) {
             System.out.println("Log file creation failed for player " + playerNumber);
         }
