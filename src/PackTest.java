@@ -1,6 +1,9 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Tests the functionality of the Pack class
+ */
 public class PackTest {
     @Test
     public void getCards() {

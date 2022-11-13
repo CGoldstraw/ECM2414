@@ -5,13 +5,23 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-
+/**
+ * CardGame handles the execution of the card game
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 class CardGame {
 
     public final static Object lock = new Object();
     public static Player[] players;
     public static CardDeck[] decks;
 
+    /**
+     * Gets the number of players from the user
+     *
+     * @param scan The scanner to read from
+     * @return The number of players
+     */
     public static int getNumPlayers(Scanner scan) {
         int numPlayers = 0;
         while (true) {
@@ -30,6 +40,12 @@ class CardGame {
         return numPlayers;
     }
 
+    /**
+     * Gets the pack file location from the player
+     *
+     * @param scan The scanner to read from
+     * @return The contents of the pack
+     */
     public static String getPackFile(Scanner scan) {
         String packContent = "";
         while (true) {
@@ -45,6 +61,12 @@ class CardGame {
         return packContent;
     }
 
+    /**
+     * Gets the content of the pack file from specified location
+     * @param packLocation The location of the pack file
+     * @return The contents of the pack file
+     * @throws FileNotFoundException If the pack file does not exist
+     */
     private static String getPackContent(String packLocation) throws FileNotFoundException {
         File packFile = new File(packLocation);
         Scanner packReader = new Scanner(packFile);
@@ -57,6 +79,12 @@ class CardGame {
         return packContent;
     }
 
+    /**
+     * Starts the card game
+     *
+     * @param numPlayers Number of players playing the game
+     * @param pack The pack to use for the game
+     */
     public static void play(int numPlayers, Pack pack) {
         // Create the players and decks
         Player.numPlayers = numPlayers;

@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests the functionality of the CardDeck class
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class CardDeckTest {
 
     @Before

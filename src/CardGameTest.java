@@ -1,6 +1,12 @@
 import org.junit.Test;
 import java.util.Random;
 
+/**
+ * Tests the functionality of the entire game
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class CardGameTest {
 
     @Test

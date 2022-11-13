@@ -3,6 +3,12 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Player represents a player in the game.
+ *
+ * @author Charlie Goldstraw, Charles MacDonald-Smith
+ * @version 1.0
+ */
 public class Player extends Thread {
     public static boolean gameWon = false;
     public static int winningPlayer = 0;
@@ -12,6 +18,11 @@ public class Player extends Thread {
     private FileWriter logFile;
     private ArrayList<Card> hand;
 
+    /**
+     * Creates a new player with the given player number.
+     *
+     * @param playerNumber The player number
+     */
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
         // As players are not guaranteed to take the same number of turns,
@@ -31,6 +42,9 @@ public class Player extends Thread {
         }
     }
 
+    /**
+     * Creates a player thread and starts it.
+     */
     public void run() {
         // Check for the case where a player wins immediately.
         while (!gameWon) {
@@ -65,13 +79,21 @@ public class Player extends Thread {
             checkWon();
         }
         this.logEnding();
-        this.safeLog("player " + this.playerNumber + " exits");
+        this.log("player " + this.playerNumber + " exits");
         this.logHand("final");
         this.closeLog();
         // Each player creates a log file for the deck to their left at the end.
         CardGame.decks[this.playerNumber-1].logDeck();
     }
 
+
+    /**
+     * Finds a card in the player's hand that can be discarded.
+     * Prevents stagnation by cycling through the preferred disposed card.
+     * Keeps the desired cards
+     *
+     * @return The card to be discarded
+     */
     private Card findDisposableCard() {
         // Cycle through cards to prevent stale cards.
         cardCycleCount = (cardCycleCount+1) % 4;
@@ -81,6 +103,10 @@ public class Player extends Thread {
         return this.hand.get(cardCycleCount);
     }
 
+    /**
+     * Checks if the player has won the game by checking if all the cards have the same value as the player number.
+     * If the player has won, the gameWon flag is set to true and the winningPlayer is set to the player number.
+     */
     private void checkWon() {
         int v1 = this.hand.get(0).getValue();
         int v2 = this.hand.get(1).getValue();
@@ -93,6 +119,10 @@ public class Player extends Thread {
         }
     }
 
+    /**
+     * Deals a card to the player.
+     * @param card The card to be dealt
+     */
     public void dealCard(Card card) {
         this.hand.add(card);
         if (this.hand.size() == 4) {
@@ -100,48 +130,80 @@ public class Player extends Thread {
         }
     }
 
+    /**
+     * Gets the number of the player
+     * @return The player number
+     */
     public int getPlayerNumber() {
         return playerNumber;
     }
-    
+
+    /**
+     * Gets the cards in the player's hand
+     * @return The cards in the player's hand
+     */
     public ArrayList<Card> getHand() {
         return this.hand;
     }
 
+    /**
+     * Get the value of the card at the given index in the player's hand.
+     * @param index The index of the card
+     * @return The value of the card
+     */
     public int getCardVal(int index) {
         return this.hand.get(index).getValue();
     }
 
+    /**
+     * Logs the player's hand to the player's log file
+     * @param handType The type of hand to be logged e.g. initial, current or final
+     */
     private void logHand(String handType) {
         String handStr = "";
         for (int i = 0; i < 4; i++) {
             handStr += this.hand.get(i).getValue() + " ";
         }
-        this.safeLog("player " + this.playerNumber + " " + handType + " hand: " + handStr);
+        this.log("player " + this.playerNumber + " " + handType + " hand: " + handStr);
     }
 
+    /**
+     * Logs the player's draw to the player's log file
+     * @param cardVal The value of the card drawn
+     */
     private void logDraw(int cardVal) {
-        this.safeLog("player " + this.playerNumber + " draws a " + cardVal +
+        this.log("player " + this.playerNumber + " draws a " + cardVal +
             " from deck " + this.playerNumber);
     }
 
+    /**
+     * Logs the player's discard to the player's log file
+     * @param cardVal The value of the card discarded
+     */
     private void logDiscard(int cardVal) {
-        this.safeLog("player " + this.playerNumber + " discards a " + cardVal +
+        this.log("player " + this.playerNumber + " discards a " + cardVal +
             " to deck " + (this.playerNumber%Player.numPlayers+1));
     }
 
+    /**
+     * Logs the end of a game to the player's log file
+     */
     private void logEnding() {
         if (this.playerNumber != Player.winningPlayer) {
             String winner = "player " + Player.winningPlayer;
             String loser = "player " + this.playerNumber;
-            this.safeLog(winner + " has informed " + loser + " that " + winner + " has won");
+            this.log(winner + " has informed " + loser + " that " + winner + " has won");
         } else {
             System.out.println("player " + this.playerNumber + " wins");
-            this.safeLog("player " + this.playerNumber + " wins");
+            this.log("player " + this.playerNumber + " wins");
         }
     }
 
-    private void safeLog(String msg) {
+    /**
+     * Logs a message to the player's log file
+     * @param msg The message to be logged
+     */
+    private void log(String msg) {
         try {
             this.logFile.write(msg + "\n");
         } catch (IOException e) {
@@ -150,6 +212,9 @@ public class Player extends Thread {
         }
     }
 
+    /**
+     * Closes the player's log file
+     */
     private void closeLog() {
         try {
             this.logFile.close();
