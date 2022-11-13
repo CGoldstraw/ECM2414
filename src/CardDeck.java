@@ -80,7 +80,7 @@ public class CardDeck {
     public void logDeck() {
         try {
             String filename = "deck" + this.deckNumber + "_output.txt";
-            // check logs directory exists
+            // Check logs directory exists
             File logsDir = new File("logs");
             logsDir.mkdir();
             FileWriter deckLogFile = new FileWriter(new File("logs", filename));
