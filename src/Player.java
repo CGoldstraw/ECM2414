@@ -147,7 +147,7 @@ public class Player extends Thread {
      * @param index The index of the card
      * @return The value of the card
      */
-    public int getCardVal(int index) {
+    public int getCardValue(int index) {
         return this.hand.get(index).getValue();
     }
 

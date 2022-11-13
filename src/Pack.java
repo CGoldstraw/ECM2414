@@ -77,16 +77,16 @@ public class Pack {
         }
 
         // Check for case where a player immediately wins.
-        for (int i = 0; i < players.length; i++) {
-            int v1 = players[i].getCardVal(0);
-            int v2 = players[i].getCardVal(1);
-            int v3 = players[i].getCardVal(2);
-            int v4 = players[i].getCardVal(3);
+        for (Player player : players) {
+            int v1 = player.getCardValue(0);
+            int v2 = player.getCardValue(1);
+            int v3 = player.getCardValue(2);
+            int v4 = player.getCardValue(3);
 
             if ((v1 == v2) && (v1 == v3) && (v1 == v4)) {
                 Player.gameWon = true;
-                Player.winningPlayer = players[i].getPlayerNumber();
-        }
+                Player.winningPlayer = player.getPlayerNumber();
+            }
         }
     }
 }
