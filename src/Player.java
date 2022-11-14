@@ -15,7 +15,6 @@ public class Player extends Thread {
     public static int winningPlayer = 0;
     public static int numPlayers = 0;
     private final int playerNumber;
-    private int cardCycleCount = 0;
     private FileWriter logFile;
     private ArrayList<Card> hand;
 

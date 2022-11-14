@@ -1,10 +1,9 @@
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.File;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
 
 /**
  * Tests the functionality of the CardDeck class

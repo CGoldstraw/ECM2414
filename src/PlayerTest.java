@@ -1,10 +1,9 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
 import java.lang.reflect.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Tests the functionality of the Player class

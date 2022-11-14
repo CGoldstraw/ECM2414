@@ -1,6 +1,6 @@
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import java.util.Random;
 
 /**
  * Tests the functionality of the Card class
@@ -12,13 +12,11 @@ public class CardTest {
 
     @Test
     public void getValueReturnsCorrectValue() {
-        Card card1 = new Card(1);
-        Card card2 = new Card(2);
-        Card card3 = new Card(3);
-        Card card4 = new Card(4);
-        assertEquals(1, card1.getValue());
-        assertEquals(2, card2.getValue());
-        assertEquals(3, card3.getValue());
-        assertEquals(4, card4.getValue());
+        Random rand = new Random();
+        for (int i = 0; i < 10; i++) {
+            int val = rand.nextInt(1,100);
+            Card card = new Card(val);
+            assertEquals(val, card.getValue());
+        }
     }
 }

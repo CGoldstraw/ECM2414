@@ -1,6 +1,6 @@
-import org.junit.Test;
-
 import static org.junit.Assert.*;
+import org.junit.Test;
+import java.util.Random;
 
 /**
  * Tests the functionality of the Pack class
@@ -8,48 +8,75 @@ import static org.junit.Assert.*;
 public class PackTest {
     @Test
     public void getCards() {
-        String packFourPlayers = "3\n2\n2\n4\n1\n5\n6\n2\n3\n4\n1\n2\n4\n5\n2\n1\n2\n3\n5\n6\n4\n3\n2\n1\n2\n3\n4\n1\n2\n3\n4\n1\n";
-        Pack pack = new Pack(packFourPlayers, 4);
+        Random rand = new Random();
+        int numPlayers = rand.nextInt(2,10);
+        String packStr = "";
+        for (int i = 0; i < numPlayers*8; i++) {
+            packStr += rand.nextInt(1,100) + "\n";
+        }
+        Pack pack = new Pack(packStr, numPlayers);
         assertTrue(pack.valid);
     }
 
     @Test
     public void invalidNumberOfCardsFails() {
-        String packFourPlayers = "3\n2\n2\n4\n1\n5\n6\n2\n3\n4\n1\n2\n4\n5\n2\n1\n2\n3\n5\n6\n4\n3\n2\n1\n2\n3\n4\n1\n2\n3\n4\n1\n";
-        Pack pack = new Pack(packFourPlayers, 3);
+        Random rand = new Random();
+        int numPlayers = rand.nextInt(3,10);
+        String packStr = "";
+        for (int i = 0; i < numPlayers*8; i++) {
+            packStr += rand.nextInt(1,100) + "\n";
+        }
+        Pack pack = new Pack(packStr, numPlayers-1);
+        assertFalse(pack.valid);
+    }
+
+    @Test
+    public void negativeCardRejected() {
+        Random rand = new Random();
+        int numPlayers = rand.nextInt(5,10);
+        String packStr = "";
+        for (int i = 0; i < numPlayers*8-1; i++) {
+            packStr += rand.nextInt(1,100) + "\n";
+        }
+        packStr += "-1\n";
+        Pack pack = new Pack(packStr, numPlayers);
+        assertFalse(pack.valid);
+    }
+
+    @Test
+    public void invalidCardRejected() {
+        Random rand = new Random();
+        int numPlayers = rand.nextInt(5,10);
+        String packStr = "";
+        for (int i = 0; i < numPlayers*8-1; i++) {
+            packStr += rand.nextInt(1,100) + "\n";
+        }
+        packStr += "A\n";
+        Pack pack = new Pack(packStr, numPlayers);
         assertFalse(pack.valid);
     }
 
     @Test
     public void dealCards() {
-        Player player1 = new Player(1);
-        Player player2 = new Player(2);
-        Player player3 = new Player(3);
-        Player player4 = new Player(4);
+        Player[] players = new Player[4];
+        CardDeck[] decks = new CardDeck[4];
+        for (int i = 0; i < 4; i++) {
+            players[i] = new Player(i+1);
+            decks[i] = new CardDeck(i+1);
+        }
 
-        Player[] players = {player1, player2, player3, player4};
+        Random rand = new Random();
+        String packStr = "";
+        for (int i = 0; i < 32; i++) {
+            packStr += rand.nextInt(1,100) + "\n";
+        }
+        Pack pack = new Pack(packStr, 4);
 
-        CardDeck deck1 = new CardDeck(1);
-        CardDeck deck2 = new CardDeck(2);
-        CardDeck deck3 = new CardDeck(3);
-        CardDeck deck4 = new CardDeck(4);
-
-        CardDeck[] decks = {deck1, deck2, deck3, deck4};
-
-        String packFourPlayers = "3\n2\n2\n4\n1\n5\n6\n2\n3\n4\n1\n2\n4\n5\n2\n1\n2\n3\n5\n6\n4\n3\n2\n1\n2\n3\n4\n1\n2\n3\n4\n1\n";
-
-        Pack pack = new Pack(packFourPlayers, 4);
         pack.dealCards(players, decks);
 
-
-        assertEquals(4, player1.getHand().size());
-        assertEquals(4, player2.getHand().size());
-        assertEquals(4, player3.getHand().size());
-        assertEquals(4, player4.getHand().size());
-
-        assertEquals(4, deck1.getCards().size());
-        assertEquals(4, deck2.getCards().size());
-        assertEquals(4, deck3.getCards().size());
-        assertEquals(4, deck4.getCards().size());
+        for (int i = 0; i < 4; i++) {
+            assertEquals(4, players[i].getHand().size());
+            assertEquals(4, decks[i].getCards().size());
+        }
     }
 }
