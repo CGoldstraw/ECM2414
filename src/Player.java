@@ -53,10 +53,9 @@ public class Player extends Thread {
             CardDeck rightDeck = CardGame.decks[this.playerNumber % Player.numPlayers];
             // Decks are locked in ascending order so that deadlock doesn't occur.
             // Both decks must be locked in order to ensure fully atomic player actions.
-            CardDeck firstLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? leftDeck : rightDeck;
-            CardDeck lastLockDeck = this.playerNumber-1 < this.playerNumber % Player.numPlayers ? rightDeck : leftDeck;
-            synchronized (firstLockDeck) {
-                synchronized (lastLockDeck) {
+            boolean lockLeftFirst = this.playerNumber - 1 < this.playerNumber % Player.numPlayers;
+            synchronized (lockLeftFirst ? leftDeck : rightDeck) {
+                synchronized (lockLeftFirst ? rightDeck : leftDeck) {
                     // Top of deck considered to be last card as decks operate in a stack.
                     int lastIndex = leftDeck.getCards().size()-1;
                     // Ensure deck has at least 1 card.
