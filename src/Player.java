@@ -2,6 +2,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Represents a player in the game.
@@ -85,16 +86,17 @@ public class Player extends Thread {
 
     /**
      * Finds a card in the player's hand that can be discarded.
-     * Prevents stagnation by cycling through the preferred disposed card.
-     * Keeps the desired cards
+     * Prevents stagnation by randomising the disposed card.
+     * Will not dispose a card with a value equal to the player's ID.
      *
      * @return The card to be discarded
      */
     private Card findDisposableCard() {
-        // Cycle through disposed index to prevent stale cards.
-        cardCycleCount = (cardCycleCount+1) % 5;
-        while (this.hand.get(cardCycleCount).getValue() == this.playerNumber) {
-            cardCycleCount = (cardCycleCount+1) % 5;
+        // Randomise disposed index to prevent stale cards.
+        Random rand = new Random();
+        int cardCycleCount = rand.nextInt(0, this.hand.size());
+        while (this.getCardValue(cardCycleCount) == this.playerNumber) {
+            cardCycleCount = rand.nextInt(0, this.hand.size());
         }
         return this.hand.get(cardCycleCount);
     }

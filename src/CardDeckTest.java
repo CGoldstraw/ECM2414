@@ -17,6 +17,7 @@ public class CardDeckTest {
     @Before
     public void clearLogs() {
         File logsDir = new File("logs");
+        logsDir.mkdir();
         for (File file : logsDir.listFiles()) {
             file.delete();
         }
