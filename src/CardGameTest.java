@@ -39,6 +39,8 @@ public class CardGameTest {
             e.printStackTrace();
             fail();
         }
+        File testPack = new File("test_pack.txt");
+        testPack.delete();
     }
 
     @Test

@@ -1,6 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import java.io.File;
 import java.lang.reflect.*;
@@ -13,7 +13,7 @@ import java.lang.reflect.*;
  */
 public class PlayerTest {
 
-    @Before
+    @After
     public void clearLogs() {
         File logsDir = new File("logs");
         logsDir.mkdir();
