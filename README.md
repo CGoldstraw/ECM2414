@@ -28,7 +28,7 @@ Logs will be outputted to the `logs` folder
 
 # Testing
 
-Compile to bytecode:
+Compile to bytecode (Using JUnit 4):
 
 ```bash
 javac -cp src;lib/junit-4.13.1.jar -d bin src/*.java

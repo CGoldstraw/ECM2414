@@ -15,7 +15,6 @@ public class Player extends Thread {
     public static int winningPlayer = 0;
     public static int numPlayers = 0;
     private final int playerNumber;
-    private FileWriter logFile;
     private ArrayList<Card> hand;
 
     /**
@@ -29,12 +28,13 @@ public class Player extends Thread {
         // we use an arraylist which can handle a variable length list of cards.
         this.hand = new ArrayList<>();
 
-        // Creates player log file and creates logs directory if it doesn't exist.
+        // Creates logs directory if it doesn't exist.
         try {
             File logsDir = new File("logs");
             logsDir.mkdir();
             String filename = "player" + playerNumber + "_output.txt";
-            logFile = new FileWriter(new File("logs", filename));
+            FileWriter logFile = new FileWriter(new File("logs", filename));
+            logFile.close();
         } catch (IOException e) {
             System.out.println("Log file creation failed for player " + playerNumber);
             e.printStackTrace();
@@ -50,33 +50,25 @@ public class Player extends Thread {
         while (!gameWon) {
             CardDeck leftDeck = CardGame.decks[this.playerNumber - 1];
             CardDeck rightDeck = CardGame.decks[this.playerNumber % Player.numPlayers];
-            // Decks are locked in ascending order so that deadlock doesn't occur.
-            // Both decks must be locked in order to ensure fully atomic player actions.
-            boolean lockLeftFirst = this.playerNumber - 1 < this.playerNumber % Player.numPlayers;
-            synchronized (lockLeftFirst ? leftDeck : rightDeck) {
-                synchronized (lockLeftFirst ? rightDeck : leftDeck) {
-                    // Top of deck considered to be last card as decks operate in a stack.
-                    int lastIndex = leftDeck.getCards().size()-1;
-                    // Ensure deck has at least 1 card.
-                    if (lastIndex != -1) {
-                        Card newCard = leftDeck.removeCard(lastIndex);
-                        this.hand.add(newCard);
-                        Card disposedCard = findDisposableCard();
-                        this.hand.remove(disposedCard);
-                        rightDeck.dealCard(disposedCard);
+            // Top of deck considered to be last card as decks operate in a stack.
+            int lastIndex = leftDeck.getCards().size()-1;
+            // Ensure deck has at least 1 card.
+            if (lastIndex != -1) {
+                Card newCard = leftDeck.removeCard(lastIndex);
+                this.hand.add(newCard);
+                Card disposedCard = findDisposableCard();
+                this.hand.remove(disposedCard);
+                rightDeck.dealCard(disposedCard);
 
-                        this.logDraw(newCard.getValue());
-                        this.logDiscard(disposedCard.getValue());
-                        this.logHand("current");
-                    }
-                }
+                this.logDraw(newCard.getValue());
+                this.logDiscard(disposedCard.getValue());
+                this.logHand("current");
             }
             checkWon();
         }
         this.logEnding();
         this.log("player " + this.playerNumber + " exits");
         this.logHand("final");
-        this.closeLog();
         // Each player calls the deck to their left's logging function at the end.
         CardGame.decks[this.playerNumber-1].logDeck();
     }
@@ -117,6 +109,7 @@ public class Player extends Thread {
 
     /**
      * Deals a card to the player.
+     * 
      * @param card The card to be dealt
      */
     public void dealCard(Card card) {
@@ -136,6 +129,7 @@ public class Player extends Thread {
 
     /**
      * Gets the cards in the player's hand
+     * 
      * @return The cards in the player's hand
      */
     public ArrayList<Card> getHand() {
@@ -144,6 +138,7 @@ public class Player extends Thread {
 
     /**
      * Get the value of the card at the given index in the player's hand.
+     * 
      * @param index The index of the card
      * @return The value of the card
      */
@@ -153,6 +148,7 @@ public class Player extends Thread {
 
     /**
      * Logs the player's hand to the player's log file
+     * 
      * @param handType The type of hand to be logged e.g. initial, current or final
      */
     private void logHand(String handType) {
@@ -165,6 +161,7 @@ public class Player extends Thread {
 
     /**
      * Logs the player's draw to the player's log file
+     * 
      * @param cardVal The value of the card drawn
      */
     private void logDraw(int cardVal) {
@@ -174,11 +171,12 @@ public class Player extends Thread {
 
     /**
      * Logs the player's discard to the player's log file
+     * 
      * @param cardVal The value of the card discarded
      */
     private void logDiscard(int cardVal) {
         this.log("player " + this.playerNumber + " discards a " + cardVal +
-            " to deck " + (this.playerNumber%Player.numPlayers+1));
+            " to deck " + (this.playerNumber % Player.numPlayers + 1));
     }
 
     /**
@@ -197,28 +195,18 @@ public class Player extends Thread {
 
     /**
      * Logs a message to the player's log file
+     * 
      * @param msg The message to be logged
      */
     private void log(String msg) {
         try {
-            this.logFile.write(msg + "\n");
+            String filename = "player" + playerNumber + "_output.txt";
+            FileWriter logFile = new FileWriter(new File("logs", filename), true);
+            logFile.write(msg + "\n");
+            logFile.close();
         } catch (IOException e) {
             System.out.println("Log writing failed.");
             e.printStackTrace();
         }
     }
-
-    /**
-     * Closes the player's log file
-     */
-    private void closeLog() {
-        try {
-            this.logFile.close();
-        } catch (IOException e) {
-            System.out.println("Log closing failed.");
-            e.printStackTrace();
-        }
-    }
-
-
 }
