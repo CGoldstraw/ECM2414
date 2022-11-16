@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import org.junit.After;
 import org.junit.Test;
-import java.io.File;
 import java.lang.reflect.*;
 
 /**
@@ -12,15 +10,6 @@ import java.lang.reflect.*;
  * @version 1.0
  */
 public class PlayerTest {
-
-    @After
-    public void clearLogs() {
-        File logsDir = new File("logs");
-        logsDir.mkdir();
-        for (File file : logsDir.listFiles()) {
-            file.delete();
-        }
-    }
 
     @Test
     public void dealCardAddsCardToHand() {

@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Charlie Goldstraw, Charles MacDonald-Smith
  * @version 1.0
  */
-class CardGame {
+public class CardGame {
 
     public final static Object lock = new Object();
     public static Player[] players;
