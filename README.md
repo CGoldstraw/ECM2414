@@ -1,4 +1,5 @@
 # ECM2414 CA 2022
+Multi-threaded card game in Java.
 
 ## Structure
 
